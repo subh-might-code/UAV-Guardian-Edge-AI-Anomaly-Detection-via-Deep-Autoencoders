@@ -20,8 +20,8 @@ $$MSE = \frac{1}{n} \sum_{i=1}^{n} (x_i - \hat{x}_i)^2$$
 
 * **Training Strategy:** The model was trained in Google Colab using only healthy vibration data.
 * **Thresholding:** We calculated the maximum MSE the model produced on healthy data and added a safety buffer to establish the alarm threshold.
-    * **Normal Flight:** $MSE < 3.30531$ (The AI successfully reconstructs the signal).
-    * **Anomaly Detected:** $MSE > 3.30531$ (The AI fails to reconstruct the unknown pattern).
+    * **Normal Flight:** $MSE < 2.6$ (The AI successfully reconstructs the signal).
+    * **Anomaly Detected:** $MSE > 2.5$ (The AI fails to reconstruct the unknown pattern).
 
 ---
 
@@ -30,7 +30,7 @@ $$MSE = \frac{1}{n} \sum_{i=1}^{n} (x_i - \hat{x}_i)^2$$
 Deploying Deep Learning on a microcontroller like the ESP32 requires solving significant hardware constraints.
 
 ### TensorFlow Lite for Microcontrollers (TFLite)
-The model was trained in Keras, converted to a `.tflite` flatbuffer, and embedded into the firmware as a C++ byte array (`uav_model.h`).
+The model was trained in Keras, converted to a `.tflite` flatbuffer, and embedded into the firmware as a C++ byte array (`uav_model_autoenc.h`).
 
 ### Resolving the "Identity Shortcut" Bug
 During deployment, a critical memory conflict was identified: The TFLite interpreter optimizes RAM by sharing the memory address for the **Input** and **Output** tensors. In an Autoencoder, this causes the AI to overwrite the input with the output, resulting in a false $MSE = 0.0000$.
@@ -72,9 +72,9 @@ The system uses the **MQTT** protocol for low-latency, asynchronous telemetry.
 ## Project Structure
 ```text
 ├── src/
-│   ├── uav_guardian.ino    # Main ESP32 source code
-│   └── uav_model.h         # Embedded TFLite model
+│   ├── uav_g_autoenc.ino    # Main ESP32 source code
+│   └── uav_model_autoenc.h         # Embedded TFLite model
 ├── training/
-│   ├── healthy_master.csv  # Training dataset
-│   └── train_model.ipynb   # Colab notebook
+│   ├── healthy_autoenc.csv  # Training dataset
+│   └── UAV-g-autoenc.ipynb   # Colab notebook
 └── README.md               # Project documentation
