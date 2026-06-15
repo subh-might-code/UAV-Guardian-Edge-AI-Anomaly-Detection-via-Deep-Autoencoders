@@ -61,7 +61,7 @@ The system uses the **MQTT** protocol for low-latency, asynchronous telemetry.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 * **Firmware:** C++ / Arduino / ESP32
 * **AI/ML:** TensorFlow, Keras, TFLite Micro, Google Colab
 * **Hardware:** MPU6050 (I2C)
